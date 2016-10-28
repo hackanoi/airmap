@@ -10,6 +10,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,17 +31,24 @@ public class ManHinh2  extends AppCompatActivity {
     RelativeLayout mhp;
     TextView tv_Back;
 
+    BarChart barChart;
+    ArrayList<BarEntry> barEntries = new ArrayList<>();
+    ArrayList<String> theDates = new ArrayList<>();
+    BarDataSet barDataSet = new BarDataSet(barEntries,"Humidity(%)");
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_man_hinh2);
 
+        barChart = (BarChart) findViewById(R.id.bargraph);
         //Hien thi ListThongso: Thoigian, Nhietdo
 
         lvThongSo = (ListView) findViewById(R.id.listview_ThongSo);
         mhp =  (RelativeLayout) findViewById(R.id.activity_manhinh3) ;
-        mhp.setBackgroundResource(R.drawable.moon2);
+        mhp.setBackgroundResource(R.drawable.water4);
 
         //Xoa thanh actionbar(thanh ghi tên project)
 //        android.support.v7.app.ActionBar AB=getSupportActionBar();
@@ -97,6 +109,23 @@ public class ManHinh2  extends AppCompatActivity {
                             time.getString("humi"),
                             time.getString("light"),
                             time.getString("c02")));
+
+                    //Add humi vao chart co 7 gia tri
+                    if(i==(mangJSON.length()- 1)){
+                        barEntries.add(new BarEntry(Float.valueOf(time.getString("humi")),0));}
+                    if(i==(mangJSON.length()- 2)){
+                        barEntries.add(new BarEntry(Float.valueOf(time.getString("humi")),1));}
+                    if(i==(mangJSON.length()- 3)){
+                        barEntries.add(new BarEntry(Float.valueOf(time.getString("humi")),2));}
+                    if(i==(mangJSON.length()- 4)){
+                        barEntries.add(new BarEntry(Float.valueOf(time.getString("humi")),3));}
+                    if(i==(mangJSON.length()- 5)){
+                        barEntries.add(new BarEntry(Float.valueOf(time.getString("humi")),4));}
+                    if(i==(mangJSON.length()- 6)){
+                        barEntries.add(new BarEntry(Float.valueOf(time.getString("humi")),5));}
+                    if(i==(mangJSON.length()- 7)){
+                        barEntries.add(new BarEntry(Float.valueOf(time.getString("humi")),6));}
+
                     if (i == (mangJSON.length()- 1)) {
                         tem = time.getString("tem");
                         lasttime = time.getString("time");
@@ -109,6 +138,24 @@ public class ManHinh2  extends AppCompatActivity {
                     }
 
                 }
+
+                //Do data vao chart
+                theDates.add("Mon");
+                theDates.add("Tue");
+                theDates.add("Web");
+                theDates.add("Thur");
+                theDates.add("Fri");
+                theDates.add("Sar");
+                theDates.add("Sun");
+
+
+                BarData theData = new BarData(theDates,barDataSet);
+                barChart.setData(theData);
+                barChart.setTouchEnabled(true);
+                barChart.setDragEnabled(true);
+                barChart.setScaleEnabled(true);
+                barChart.setBackgroundColor(Color.YELLOW);
+
                 ListAdapter adapter = new ListAdapter(
                         ManHinh2.this,
                         R.layout.activity_list_parameter,
