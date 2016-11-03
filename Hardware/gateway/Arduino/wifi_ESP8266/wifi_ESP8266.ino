@@ -9,11 +9,11 @@
 #include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson/releases/tag/v5.0.7
 
 //-------- Customise these values -----------
-const char* ssid            = "Aics618";
-const char* password        = "aicsaics618";
+//const char* ssid            = "Toong-Guest";
+//const char* password        = "toong@123";
 
-//const char* ssid            = "netis_2.4G_2CD7C2";
-//const char* password        = "password";
+const char* ssid            = "netis_2.4G_2CD7C2";
+const char* password        = "password";
 
 //#define ORG "pr1qjl"
 //#define DEVICE_TYPE "ESP8266" //"raspberrypi"
