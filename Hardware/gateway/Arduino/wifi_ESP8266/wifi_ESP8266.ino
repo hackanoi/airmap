@@ -12,8 +12,8 @@
 //const char* ssid            = "";
 //const char* password        = "";
 
-const char* ssid            = "";
-const char* password        = "";
+const char* ssid            = "SPARC LAB";
+const char* password        = "labthaydung";
 
 //#define ORG "pr1qjl"
 //#define DEVICE_TYPE "ESP8266" //"raspberrypi"
@@ -44,7 +44,7 @@ char* dataReceive;
 
 WiFiClient wifiClient;
 
-int publishInterval         = 10000; // 10 seconds
+int publishInterval         = 20000; // 20 seconds
 long lastPublishMillis;
 
 String payload = "{\"d\":{\"counter\":";
@@ -52,7 +52,7 @@ String data;
 
 
 void handleUpdate(byte* payload) {
-  StaticJsonBuffer<300> jsonBuffer;
+  StaticJsonBuffer<600> jsonBuffer;
   JsonObject& root            = jsonBuffer.parseObject((char*)payload);
   if (!root.success()) {
     //Serial.println("handleUpdate: payload parse FAILED");
@@ -81,7 +81,7 @@ void callback(char* topic, byte* payload, unsigned int payloadLength) {
   //Serial.print("callback invoked for topic: "); //Serial.println(topic);
   if (strcmp (subtopic, topic) == 0)
   {
-    StaticJsonBuffer<300> jsonBuffer;
+    StaticJsonBuffer<600> jsonBuffer;
     JsonObject& root = jsonBuffer.parseObject((char*)payload);
     if (!root.success())
     {
@@ -136,7 +136,7 @@ void initManagedDevice() {
     Serial.println("FAIL");
   }
 
-  StaticJsonBuffer<300> jsonBuffer;
+  StaticJsonBuffer<600> jsonBuffer;
   JsonObject& root            = jsonBuffer.createObject();
   JsonObject& d               = root.createNestedObject("d");
   JsonObject& metadata        = d.createNestedObject("metadata");
@@ -144,7 +144,7 @@ void initManagedDevice() {
   JsonObject& supports        = d.createNestedObject("supports");
   supports["deviceActions"]   = true;
 
-  char buff[300];
+  char buff[600];
   root.printTo(buff, sizeof(buff));
   //Serial.println("publishing device metadata:"); //Serial.println(buff);
   if (client.publish(manageTopic, buff)) {
